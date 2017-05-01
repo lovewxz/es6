@@ -8703,126 +8703,137 @@
 
 	'use strict';
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	{
-	  var obj = {
-	    time: '2017-03-02',
-	    name: 'li lei',
-	    _r: 'private'
-	  };
+	  // 基本定义和生成实例
+	  var Person = function Person() {
+	    var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'moren';
 
-	  var monitor = new Proxy(obj, {
-	    // 拦截对象属性的读取
-	    get: function get(target, key) {
-	      return target[key].replace('2017', '2018');
-	    },
-
-	    // 拦截对象属性的修改
-	    set: function set(target, key, value) {
-	      if (key === 'name') {
-	        return target[key] = value;
-	      } else {
-	        return target[key];
-	      }
-	    },
-
-	    //拦截key in object操作
-	    has: function has(target, key) {
-	      if (key === 'name') {
-	        return target[key];
-	      } else {
-	        return false;
-	      }
-	    },
-
-	    // 拦截delete
-	    deleteProperty: function deleteProperty(target, key) {
-	      if (key.indexOf('_') > -1) {
-	        delete target[key];
-	        return true;
-	      } else {
-	        return target[key];
-	      }
-	    },
-
-	    // 拦截Object.keys,Object.getOwnPropertySymbols,Object.getOwnPropertyNames
-	    ownKeys: function ownKeys(target) {
-	      return Object.keys(target).filter(function (item) {
-	        return item != 'time';
-	      });
-	    }
-	  });
-
-	  console.info('get', monitor.time);
-	  monitor.name = 'han meimei';
-	  monitor.time = '2011-03-02';
-	  console.info('set', monitor);
-
-	  console.info('has', 'name' in monitor, 'time' in monitor);
-	  console.info('ownKeys', Object.keys(monitor));
-
-	  console.info('delete', delete monitor._r, monitor);
-	  console.info('delete2', delete monitor.name, monitor);
-	}
-
-	{
-	  var _obj = {
-	    time: '2017-03-02',
-	    name: 'li lei',
-	    _r: 'private'
-	  };
-	  console.log('get', Reflect.get(_obj, 'time'));
-	  console.log('set', Reflect.set(_obj, 'time', '1'), _obj.time);
-	  console.log('has', Reflect.has(_obj, 'name'));
-	}
-
-	{
-	  /**
-	   * 对数据进行代理验证
-	   * @param  {[object]} target   [传入的对象]
-	   * @param  {[function]} validate [验证的方法]
-	   *
-	   */
-	  var validator = function validator(target, validate) {
-	    return new Proxy(target, {
-	      _validate: validate,
-	      set: function set(target, key, value, proxy) {
-	        if (target.hasOwnProperty(key)) {
-	          var va = this._validate[key];
-	          if (!!va(value)) {
-	            return Reflect.set(target, key, value, proxy);
-	          } else {
-	            throw Error('\u4E0D\u80FD\u8BBE\u7F6E' + key + '\u4E3A' + value);
-	          }
-	        } else {
-	          throw Error(key + ' \u4E0D\u5B58\u5728');
-	        }
-	      }
-	    });
-	  };
-
-	  var personValidator = {
-	    name: function name(val) {
-	      return typeof val === 'string';
-	    },
-	    age: function age(val) {
-	      return typeof val === 'number' && val > 18;
-	    }
-	  };
-
-	  var Person = function Person(name, age) {
 	    _classCallCheck(this, Person);
 
 	    this.name = name;
-	    this.age = age;
-	    return validator(this, personValidator);
 	  };
 
-	  var person = new Person('lilei', 31);
-	  console.info('person', person);
-	  person.name = 48;
-	  console.info('person', person);
+	  var person = new Person('xiugai');
+	  console.log('构造函数和实例', person);
+	}
+
+	{
+	  //继承
+	  var _Person = function _Person() {
+	    var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'moren';
+
+	    _classCallCheck(this, _Person);
+
+	    this.name = name;
+	  };
+
+	  var Child = function (_Person2) {
+	    _inherits(Child, _Person2);
+
+	    function Child() {
+	      _classCallCheck(this, Child);
+
+	      return _possibleConstructorReturn(this, (Child.__proto__ || Object.getPrototypeOf(Child)).apply(this, arguments));
+	    }
+
+	    return Child;
+	  }(_Person);
+
+	  console.log('继承', new Child());
+	}
+
+	{
+	  //继承传递参数
+	  var _Person3 = function _Person3() {
+	    var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'moren';
+
+	    _classCallCheck(this, _Person3);
+
+	    this.name = name;
+	  };
+
+	  var _Child = function (_Person4) {
+	    _inherits(_Child, _Person4);
+
+	    function _Child() {
+	      var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'child';
+
+	      _classCallCheck(this, _Child);
+
+	      var _this2 = _possibleConstructorReturn(this, (_Child.__proto__ || Object.getPrototypeOf(_Child)).call(this, name));
+
+	      _this2.type = 'type'; //如果子类要自己增加属性，一定要放在super之后
+	      return _this2;
+	    }
+
+	    return _Child;
+	  }(_Person3);
+
+	  console.log('继承传递参数', new _Child());
+	}
+
+	{
+	  //getter,setter
+	  var _Person5 = function () {
+	    function _Person5(name) {
+	      _classCallCheck(this, _Person5);
+
+	      this.name = name;
+	    }
+
+	    _createClass(_Person5, [{
+	      key: 'longName',
+	      get: function get() {
+	        return 'prefix' + this.name;
+	      },
+	      set: function set(value) {
+	        this.name = value;
+	      }
+	    }]);
+
+	    return _Person5;
+	  }();
+	  // get,set是属性！！并不是方法
+
+
+	  var v = new _Person5('test');
+	  console.info('get', v.longName); //prefixtest
+	  v.longName = 'set';
+	  console.info('set', v.longName); //prefixset
+	}
+
+	{
+	  //静态属性和静态方法
+	  var _Person6 = function () {
+	    function _Person6() {
+	      var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'moren';
+
+	      _classCallCheck(this, _Person6);
+
+	      this.name = name;
+	    }
+
+	    _createClass(_Person6, null, [{
+	      key: 'tell',
+	      value: function tell() {
+	        console.log('tell');
+	      }
+	    }]);
+
+	    return _Person6;
+	  }();
+
+	  _Person6.tell();
+	  _Person6.type = 'type';
+	  console.log('静态属性', _Person6.type);
 	}
 
 /***/ })
