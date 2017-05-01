@@ -1,18 +1,18 @@
-import gulp from 'gulp'; //gulp服务器
-import gulpif from 'gulp-if'; //gulp if判断命令
-import concat from 'gulp-concat'; //gulp 连接字符串
-import webpack from 'webpack';
-import gulpWebpack from 'webpack-stream';
-import named from 'vinyl-named'; //对文件重命名做标志
-import livereload from 'gulp-livereload'; //热更新,文件修改以后自动刷新
-import plumber from 'gulp-plumber'; //处理文件信息流
-import rename from 'gulp-rename'; //对文件重命名
-import uglify from 'gulp-uglify'; //处理js,css的压缩
+import gulp from 'gulp' //gulp服务器
+import gulpif from 'gulp-if' //gulp if判断命令
+import concat from 'gulp-concat' //gulp 连接字符串
+import webpack from 'webpack'
+import gulpWebpack from 'webpack-stream'
+import named from 'vinyl-named' //对文件重命名做标志
+import livereload from 'gulp-livereload' //热更新,文件修改以后自动刷新
+import plumber from 'gulp-plumber' //处理文件信息流
+import rename from 'gulp-rename' //对文件重命名
+import uglify from 'gulp-uglify' //处理js,css的压缩
 import {
   log,
   colors
-} from 'gulp-util';
-import args from './util/args';
+} from 'gulp-util'
+import args from './util/args'
 
 gulp.task('scripts', () => {
   return gulp.src(['app/js/index.js'])
