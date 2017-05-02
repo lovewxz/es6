@@ -83,7 +83,7 @@
   })
   //改
   map.set('t', 2)
-  item.t = 2 //set的是应用类型。无法修改
+  item.t = 2 //set的是引用类型。无法修改
   obj['t'] = 2
   //删
   map.delete('t')

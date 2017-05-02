@@ -81,7 +81,7 @@
 
   console.log('map', map, map.get(arr)); //456
 }
-
+//map和set只能接收数组
 {
   let map = new Map([
     ['a', 123],

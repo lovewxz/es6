@@ -8705,135 +8705,126 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	{
-	  // 基本定义和生成实例
-	  var Person = function Person() {
-	    var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'moren';
+	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+	  var desc = {};
+	  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+	    desc[key] = descriptor[key];
+	  });
+	  desc.enumerable = !!desc.enumerable;
+	  desc.configurable = !!desc.configurable;
 
-	    _classCallCheck(this, Person);
+	  if ('value' in desc || desc.initializer) {
+	    desc.writable = true;
+	  }
 
-	    this.name = name;
-	  };
+	  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+	    return decorator(target, property, desc) || desc;
+	  }, desc);
 
-	  var person = new Person('xiugai');
-	  console.log('构造函数和实例', person);
+	  if (context && desc.initializer !== void 0) {
+	    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+	    desc.initializer = undefined;
+	  }
+
+	  if (desc.initializer === void 0) {
+	    Object['define' + 'Property'](target, property, desc);
+	    desc = null;
+	  }
+
+	  return desc;
 	}
 
 	{
-	  //继承
-	  var _Person = function _Person() {
-	    var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'moren';
+	  var _desc, _value, _class;
 
-	    _classCallCheck(this, _Person);
-
-	    this.name = name;
+	  var readonly = function readonly(target, name, descriptor) {
+	    descriptor.writable = false;
+	    return descriptor;
 	  };
 
-	  var Child = function (_Person2) {
-	    _inherits(Child, _Person2);
-
-	    function Child() {
-	      _classCallCheck(this, Child);
-
-	      return _possibleConstructorReturn(this, (Child.__proto__ || Object.getPrototypeOf(Child)).apply(this, arguments));
+	  var Test = (_class = function () {
+	    function Test() {
+	      _classCallCheck(this, Test);
 	    }
 
-	    return Child;
-	  }(_Person);
-
-	  console.log('继承', new Child());
-	}
-
-	{
-	  //继承传递参数
-	  var _Person3 = function _Person3() {
-	    var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'moren';
-
-	    _classCallCheck(this, _Person3);
-
-	    this.name = name;
-	  };
-
-	  var _Child = function (_Person4) {
-	    _inherits(_Child, _Person4);
-
-	    function _Child() {
-	      var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'child';
-
-	      _classCallCheck(this, _Child);
-
-	      var _this2 = _possibleConstructorReturn(this, (_Child.__proto__ || Object.getPrototypeOf(_Child)).call(this, name));
-
-	      _this2.type = 'type'; //如果子类要自己增加属性，一定要放在super之后
-	      return _this2;
-	    }
-
-	    return _Child;
-	  }(_Person3);
-
-	  console.log('继承传递参数', new _Child());
-	}
-
-	{
-	  //getter,setter
-	  var _Person5 = function () {
-	    function _Person5(name) {
-	      _classCallCheck(this, _Person5);
-
-	      this.name = name;
-	    }
-
-	    _createClass(_Person5, [{
-	      key: 'longName',
-	      get: function get() {
-	        return 'prefix' + this.name;
-	      },
-	      set: function set(value) {
-	        this.name = value;
+	    _createClass(Test, [{
+	      key: 'time',
+	      value: function time() {
+	        return '2017-03-11';
 	      }
 	    }]);
 
-	    return _Person5;
-	  }();
-	  // get,set是属性！！并不是方法
+	    return Test;
+	  }(), (_applyDecoratedDescriptor(_class.prototype, 'time', [readonly], Object.getOwnPropertyDescriptor(_class.prototype, 'time'), _class.prototype)), _class);
 
 
-	  var v = new _Person5('test');
-	  console.info('get', v.longName); //prefixtest
-	  v.longName = 'set';
-	  console.info('set', v.longName); //prefixset
+	  var test = new Test();
+
+	  // test.time=function(){
+	  //   console.log('reset time');
+	  // };
+
+	  console.log(test.time());
 	}
 
 	{
-	  //静态属性和静态方法
-	  var _Person6 = function () {
-	    function _Person6() {
-	      var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'moren';
+	  var _class2;
 
-	      _classCallCheck(this, _Person6);
+	  var typename = function typename(target, name, descriptor) {
+	    target.myname = 'hello';
+	  };
 
-	      this.name = name;
+	  var _Test = typename(_class2 = function _Test() {
+	    _classCallCheck(this, _Test);
+	  }) || _class2;
+
+	  console.log('类修饰符', _Test.myname);
+	  // 第三方库修饰器的js库：core-decorators; npm install core-decorators
+	}
+
+	{
+	  var _dec, _dec2, _desc2, _value2, _class3;
+
+	  var log = function log(type) {
+	    return function (target, name, descriptor) {
+	      var src_method = descriptor.value;
+	      descriptor.value = function () {
+	        for (var _len = arguments.length, arg = Array(_len), _key = 0; _key < _len; _key++) {
+	          arg[_key] = arguments[_key];
+	        }
+
+	        src_method.apply(target, arg);
+	        console.info('log ' + type);
+	      };
+	    };
+	  };
+
+	  var AD = (_dec = log('show'), _dec2 = log('click'), (_class3 = function () {
+	    function AD() {
+	      _classCallCheck(this, AD);
 	    }
 
-	    _createClass(_Person6, null, [{
-	      key: 'tell',
-	      value: function tell() {
-	        console.log('tell');
+	    _createClass(AD, [{
+	      key: 'show',
+	      value: function show() {
+	        console.log('ad is show');
+	      }
+	    }, {
+	      key: 'click',
+	      value: function click() {
+	        console.log('ad is click');
 	      }
 	    }]);
 
-	    return _Person6;
-	  }();
+	    return AD;
+	  }(), (_applyDecoratedDescriptor(_class3.prototype, 'show', [_dec], Object.getOwnPropertyDescriptor(_class3.prototype, 'show'), _class3.prototype), _applyDecoratedDescriptor(_class3.prototype, 'click', [_dec2], Object.getOwnPropertyDescriptor(_class3.prototype, 'click'), _class3.prototype)), _class3));
 
-	  _Person6.tell();
-	  _Person6.type = 'type';
-	  console.log('静态属性', _Person6.type);
+
+	  var ad = new AD();
+	  ad.show();
+	  ad.click();
 	}
 
 /***/ })
